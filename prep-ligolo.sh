@@ -12,58 +12,79 @@ display_current_routes() {
 # Function to check if ligolo interface exists
 ligolo_interface_exists() {
   # Check if ligolo interface exists
-  if ip link show ligolo &> /dev/null; then
-    echo -e "\e[1mInterface 'ligolo' already exists.\e[0m"
+  if ip link show $interface_name &> /dev/null; then
+    echo -e "\e[1mInterface '$interface_name' already exists.\e[0m"
     return 0
   else
     return 1
   fi
 }
 
+# Function to display available interfaces
+display_available_interfaces() {
+  echo -e "\n\e[1mAvailable Interfaces:\e[0m"
+  ip link show | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}'
+}
+
 # Function to add tun interface and turn it on
 add_tun_interface() {
+  # Prompt user for interface name
+  read -p "Enter the desired interface name: " interface_name
+
   # Check if ligolo interface already exists
   if ligolo_interface_exists; then
     exit 1
   fi
 
   # Add tun interface for ligolo
-  sudo ip tuntap add user kali mode tun ligolo
+  sudo ip tuntap add user $USER mode tun $interface_name
 
   # Check if the command was successful
   if [ $? -eq 0 ]; then
-    echo -e "\e[1mTun interface 'ligolo' created successfully.\e[0m"
+    echo -e "\e[1mTun interface '$interface_name' created successfully.\e[0m"
   else
     echo -e "\e[1mFailed to create tun interface. Check for errors.\e[0m"
     exit 1
   fi
 
   # Turn on ligolo interface
-  sudo ip link set ligolo up
+  sudo ip link set $interface_name up
 
   # Check if the command was successful
   if [ $? -eq 0 ]; then
-    echo -e "\e[1mInterface 'ligolo' turned on successfully.\e[0m"
+    echo -e "\e[1mInterface '$interface_name' turned on successfully.\e[0m"
   else
-    echo -e "\e[1mFailed to turn on interface 'ligolo'. Check for errors.\e[0m"
+    echo -e "\e[1mFailed to turn on interface '$interface_name'. Check for errors.\e[0m"
     exit 1
   fi
 }
 
 # Function to add route for desired subnet with bold text and spacing
 add_subnet_route() {
+  # Display available interfaces
+  display_available_interfaces
+
+  # Prompt the user for the interface name
+  read -p "Enter the interface name: " interface_name
+
+  # Check if the entered interface exists
+  if ! ip link show $interface_name &> /dev/null; then
+    echo -e "\n\e[1mInterface '$interface_name' does not exist. Please add the interface first.\e[0m"
+    exit 1
+  fi
+
   # Display current routes
-  display_current_routes
+  display_current_routes $interface_name
 
   # Prompt the user for the desired subnet
-  read -p "Enter the desired subnet you want to pivot to (e.g., 192.168.1.0/24): " user_subnet
+  read -p "Enter the desired subnet to access (e.g., 192.168.1.0/24): " user_subnet
 
   # Add route for the specified subnet
-  sudo ip route add $user_subnet dev ligolo
+  sudo ip route add $user_subnet dev $interface_name
 
   # Check if the command was successful
   if [ $? -eq 0 ]; then
-    echo -e "\n\e[1mRoute added successfully for subnet $user_subnet.\e[0m"
+    echo -e "\n\e[1mRoute added successfully for subnet $user_subnet on interface $interface_name.\e[0m"
   else
     echo -e "\n\e[1mFailed to add route. Check for errors.\e[0m"
     exit 1
@@ -74,16 +95,17 @@ add_subnet_route() {
   ip route show | awk '{print $1, $3}'
 }
 
+
 # Display tool header with bold text
 echo -e "\e[1m============================================================\e[0m"
-echo -e "\e[1m        Welcome to 'prep-ligolo.sh' - Version 1.0         \e[0m"
+echo -e "\e[1m        Welcome to 'prep-ligolo.sh' - Version 1.1         \e[0m"
 echo -e "\e[1m============================================================\e[0m"
 echo
 
 # Display menu options with bold text
 echo -e "\e[1mSelect an option:\e[0m"
 echo -e "\e[1m1. Add tun interface 'ligolo' and turn it on\e[0m"
-echo -e "\e[1m2. Add route for desired subnet you want to pivot to\e[0m"
+echo -e "\e[1m2. Add route for desired subnet\e[0m"
 
 # Prompt user for choice
 read -p "Enter your choice (1 or 2): " user_choice
@@ -101,3 +123,4 @@ case $user_choice in
     exit 1
     ;;
 esac
+
