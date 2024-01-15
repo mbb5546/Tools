@@ -1,13 +1,8 @@
-# prep-ligolo is a simple script that simplifies the process for setting up Ligolo-NG on your system. 
-# This script will create a tun interface for you and will also prompt you to add routes to networks/subnets of your choice in preparation for setting up pivots/tunnels with ligolo
-#You can find the main tool Ligolo-NG here: https://github.com/nicocha30/ligolo-ng
-#Here's a video I made on Ligolo-NG usage: https://www.youtube.com/watch?v=DM1B8S80EvQ
-
 #!/bin/bash
 
-# Function to display current routes
+# Function to display current routes with bold text and spacing
 display_current_routes() {
-  echo "Current routes:"
+  printf "\e[1mCurrent Routes:\e[0m\n\n"  # Bold text with multiple newlines
   ip route show | awk '{print $1, $3}'
   echo
 }
@@ -16,7 +11,7 @@ display_current_routes() {
 ligolo_interface_exists() {
   # Check if ligolo interface exists
   if ip link show ligolo &> /dev/null; then
-    echo "Interface 'ligolo' already exists."
+    echo -e "\e[1mInterface 'ligolo' already exists.\e[0m"
     return 0
   else
     return 1
@@ -35,9 +30,9 @@ add_tun_interface() {
 
   # Check if the command was successful
   if [ $? -eq 0 ]; then
-    echo "Tun interface 'ligolo' created successfully."
+    echo -e "\e[1mTun interface 'ligolo' created successfully.\e[0m"
   else
-    echo "Failed to create tun interface. Check for errors."
+    echo -e "\e[1mFailed to create tun interface. Check for errors.\e[0m"
     exit 1
   fi
 
@@ -46,14 +41,14 @@ add_tun_interface() {
 
   # Check if the command was successful
   if [ $? -eq 0 ]; then
-    echo "Interface 'ligolo' turned on successfully."
+    echo -e "\e[1mInterface 'ligolo' turned on successfully.\e[0m"
   else
-    echo "Failed to turn on interface 'ligolo'. Check for errors."
+    echo -e "\e[1mFailed to turn on interface 'ligolo'. Check for errors.\e[0m"
     exit 1
   fi
 }
 
-# Function to add route for desired subnet
+# Function to add route for desired subnet with bold text and spacing
 add_subnet_route() {
   # Display current routes
   display_current_routes
@@ -66,22 +61,27 @@ add_subnet_route() {
 
   # Check if the command was successful
   if [ $? -eq 0 ]; then
-    echo "Route added successfully for subnet $user_subnet."
+    echo -e "\n\e[1mRoute added successfully for subnet $user_subnet.\e[0m"
   else
-    echo "Failed to add route. Check for errors."
+    echo -e "\n\e[1mFailed to add route. Check for errors.\e[0m"
     exit 1
   fi
 
   # Display updated routes
-  echo
-  echo "Updated routes:"
+  printf "\n\e[1mUpdated routes:\e[0m\n"
   ip route show | awk '{print $1, $3}'
 }
 
-# Display menu options
-echo "Select an option:"
-echo "1. Add tun interface 'ligolo' and turn it on"
-echo "2. Add route for desired subnet"
+# Display tool header with bold text
+echo -e "\e[1m============================================================\e[0m"
+echo -e "\e[1m        Welcome to 'prep-ligolo.sh' - Version 1.0         \e[0m"
+echo -e "\e[1m============================================================\e[0m"
+echo
+
+# Display menu options with bold text
+echo -e "\e[1mSelect an option:\e[0m"
+echo -e "\e[1m1. Add tun interface 'ligolo' and turn it on\e[0m"
+echo -e "\e[1m2. Add route for desired subnet\e[0m"
 
 # Prompt user for choice
 read -p "Enter your choice (1 or 2): " user_choice
@@ -95,7 +95,7 @@ case $user_choice in
     add_subnet_route
     ;;
   *)
-    echo "Invalid choice. Exiting."
+    echo -e "\e[1mInvalid choice. Exiting.\e[0m"
     exit 1
     ;;
 esac
