@@ -1,3 +1,5 @@
+#Bash script that runs some of the prep work needed when wanting to use Ligolo-ng for pivoting
+
 #!/bin/bash
 
 # Function to display current routes with bold text and spacing
