@@ -2,7 +2,7 @@
 
 # Function to display current routes with bold text and spacing
 display_current_routes() {
-  printf "\e[1mCurrent Routes:\e[0m\n\n"  # Bold text with multiple newlines
+  printf "\n\e[1mCurrent Routes:\e[0m\n\n"  # Bold text with multiple newlines
   ip route show | awk '{print $1, $3}'
   echo
 }
@@ -54,7 +54,7 @@ add_subnet_route() {
   display_current_routes
 
   # Prompt the user for the desired subnet
-  read -p "Enter the desired subnet to access (e.g., 192.168.1.0/24): " user_subnet
+  read -p "Enter the desired subnet you want to pivot to (e.g., 192.168.1.0/24): " user_subnet
 
   # Add route for the specified subnet
   sudo ip route add $user_subnet dev ligolo
@@ -81,7 +81,7 @@ echo
 # Display menu options with bold text
 echo -e "\e[1mSelect an option:\e[0m"
 echo -e "\e[1m1. Add tun interface 'ligolo' and turn it on\e[0m"
-echo -e "\e[1m2. Add route for desired subnet\e[0m"
+echo -e "\e[1m2. Add route for desired subnet you want to pivot to\e[0m"
 
 # Prompt user for choice
 read -p "Enter your choice (1 or 2): " user_choice
