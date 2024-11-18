@@ -48,3 +48,5 @@ This script automates the initial setup of a Kali Linux environment for penetrat
    ```bash
    git clone https://github.com/yourusername/kali-setup-script.git
    cd kali-setup-script
+   chmod +x setup_kali.sh
+   sudo ./setup_kali.sh
