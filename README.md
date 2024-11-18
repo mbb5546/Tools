@@ -3,7 +3,7 @@ This repo is a collection or various scripts/tools I use or am actively playing 
 ## Prep-Ligolo.sh
 This script helps automate the process of setting up a network interface for Ligolo-NG and also lets you add routes to desired subnets in preparation for pivoting needs. 
 
-## Kali Linux Penetration Testing Setup Script
+##  Gonski's System Setup Script
 
 This script automates the initial setup of a Kali Linux environment for penetration testing engagements. It installs essential tools, configures `tmux`, and sets up directory structures for efficient workflow management.
 
