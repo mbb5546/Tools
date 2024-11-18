@@ -46,7 +46,7 @@ This script automates the initial setup of a Kali Linux environment for penetrat
 
 1. Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/kali-setup-script.git
-   cd kali-setup-script
-   chmod +x setup_kali.sh
-   sudo ./setup_kali.sh
+   git clone https://github.com/mbb5546/Tools/Gonski-kali-setup.sh
+   cd Gonski-kali-setup
+   chmod +x Gonski-kali-setup.sh
+   sudo ./Gonski-kali-setup.sh
