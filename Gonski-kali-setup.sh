@@ -69,21 +69,6 @@ echo "Ensuring tools directory exists at ${TOOLS_DIR}..."
 mkdir -p "${TOOLS_DIR}"
 echo "Tools directory is ready."
 
-# Step 4: Install pipx
-echo "Installing pipx..."
-apt update && apt install -y python3-pip python3-venv
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
-echo "pipx installed."
-
-# Step 5: Install nxc and impacket using pipx
-echo "Installing NetExec (nxc) from GitHub..."
-pipx install git+https://github.com/Pennyw0rth/NetExec
-echo "NetExec (nxc) installed."
-
-echo "Installing impacket..."
-pipx install impacket
-echo "impacket installed."
 
 # Step 6: Install Pretender
 echo "Installing Pretender..."
@@ -102,9 +87,6 @@ else
   echo "Failed to download Ralph's Python script. Please check the URL or your connection."
 fi
 
-# Step 8: Reload zshrc (optional, as requested)
-echo "Reloading shell configuration..."
-source ~/.zshrc || echo "Shell configuration reloaded."
 
 # Final Notes
 echo "Setup complete. Manual steps remaining:"
