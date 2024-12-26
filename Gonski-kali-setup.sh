@@ -8,7 +8,7 @@ fi
 
 # Variables
 TMUX_CONF=".tmux.conf"
-ENGAGEMENT_BASE="/root/home"
+ENGAGEMENT_BASE="/root"
 TOOLS_DIR="${ENGAGEMENT_BASE}/tools"
 PRETENDER_URL="https://github.com/RedTeamPentesting/pretender/releases/download/v1.2.0/pretender_Linux_arm64.tar.gz"
 RALPH_SCRIPT_URL="https://gist.github.com/RalphDesmangles/c95f623106a43c8069dc123f2000f015/raw"
