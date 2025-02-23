@@ -50,3 +50,11 @@ This script automates the initial setup of a Kali Linux environment for penetrat
    cd Gonski-kali-setup
    chmod +x Gonski-kali-setup.sh
    sudo ./Gonski-kali-setup.sh
+
+## DC-Lookup.py
+
+A simple python program used to perform Domain Controller identification/enumeration. Intended for use on penetration testing engagments when you need to identify Domain Controllers.
+
+### Credit
+
+The original code for this script was created by my friend @RalphDesmangles on Github. I am stealing his code and using it as a foundation as I try to get better at writing Python tools
