@@ -7,6 +7,8 @@ This script helps automate the process of setting up a network interface for Lig
 
 This script automates the initial setup of a Kali Linux environment for penetration testing engagements. It installs essential tools, configures `tmux`, and sets up directory structures for efficient workflow management.
 
+> Please note: this script needs further tuning and fixing before working flawlessly
+
 ### Features
 
 - **Tmux Configuration**:
